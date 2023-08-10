@@ -1,27 +1,21 @@
 FROM golang:1.19 as builder
 
-WORKDIR /workspace
-# Copy the Go Modules manifests
-COPY go.mod go.mod
-COPY go.sum go.sum
-# cache deps before building and copying source so that we don't need to re-download as much
-# and so that source changes don't invalidate our downloaded layer
-RUN go mod download
+WORKDIR /app
 
-# Copy the go source
-COPY main.go cmd/
+COPY . .
 
 # Build
-RUN GOOS=linux GOARCH=amd64 go build -a -o dashboard-service ./cmd
+RUN GOOS=linux GOARCH=amd64 go build -a -o dashboard-service
 
 FROM alpine:latest
-RUN apk --no-cache add curl
 
-WORKDIR /
+WORKDIR /app
 
 # install binary
-COPY --from=builder /workspace/dashboard-service .
+COPY --from=builder /app/dashboard-service .
 
-USER 65532:65532
+EXPOSE 9002
+ENV PORT 9002
+ENV COUNTING_SERVICE_URL http://counting.service.consul:9001
 
-ENTRYPOINT ["/dashboard-service"]
+CMD ["./dashboard-service"]
