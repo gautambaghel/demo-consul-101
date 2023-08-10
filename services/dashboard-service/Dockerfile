@@ -14,6 +14,9 @@ WORKDIR /app
 # install binary
 COPY --from=builder /app/dashboard-service .
 
+# Set the binary as executable
+RUN chmod +x dashboard-service
+
 EXPOSE 9002
 ENV PORT 9002
 ENV COUNTING_SERVICE_URL http://counting.service.consul:9001
