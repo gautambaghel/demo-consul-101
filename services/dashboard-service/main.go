@@ -161,6 +161,10 @@ func getAndParseCount() (Count, error) {
 	}
 
 	req.Header.Set("User-Agent", "HashiCorp Training Lab")
+	api_key := getEnvOrDefault("API_KEY", "")
+	if api_key != "" {
+		req.Header.Set("x-api-key", api_key)
+	}
 
 	res, getErr := httpClient.Do(req)
 	if getErr != nil {

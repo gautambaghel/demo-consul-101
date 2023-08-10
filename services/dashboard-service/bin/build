@@ -23,3 +23,12 @@ mv $APPNAME dist/darwin-amd64/
 cd dist/darwin-amd64
 zip $APPNAME.zip $APPNAME
 cd ../../
+
+# Build for arm64 platform
+echo "Building Darwin..."
+GOOS=darwin GOARCH=arm64 go build -v .
+mkdir -p dist/darwin-arm64
+mv $APPNAME dist/darwin-arm64/
+cd dist/darwin-arm64
+zip $APPNAME.zip $APPNAME
+cd ../../
