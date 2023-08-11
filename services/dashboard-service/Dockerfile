@@ -9,4 +9,4 @@ ENV PORT 9002
 ENV COUNTING_SERVICE_URL http://counting.service.consul:9001
 
 RUN go get
-CMD ["go run main.go"]
+CMD ["go" "run" "main.go"]
