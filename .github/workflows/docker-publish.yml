@@ -17,6 +17,9 @@ jobs:
       - name: Build Docker Image
         run: |
           cd services/dashboard-service
+          ./bin/build
+          cp dist/linux-amd64 ../../k8s/dashboard-service
+          cd ../../k8s/dashboard-service
           docker build -t baghelg/dashboard-service:0.0.4 .
 
       - name: Log into Docker Registry
